@@ -16,47 +16,19 @@ function Square(props) {
 class Board extends React.Component {
   // this.props是从父组件传过来的变量
   // this.state则需要在constructor中自己定义
-  constructor(props) {
-    super(props);
-    this.state = {
-      squares: Array(9).fill(null),
-      xIsNext: true,
-    };
-    this.winner = null;
-  }
+
   renderSquare(i) {
     return (
       <Square
-        value={this.state.squares[i]}
-        onclick={() => this.handleClick(i)}
+        value={this.props.squares[i]}
+        onclick={() => this.props.onclick(i)}
       />
     );
   }
-  handleClick(i) {
-    const squares = this.state.squares.slice();
-    // 出现胜者，不做处理
-    if (this.winner || squares[i]) {
-      return;
-    }
-    squares[i] = this.state.xIsNext ? "X" : "O";
-    // this.state.xIsNext = !this.state.xIsNext; Do not mutate state directly. Use setState()
-    // 通过替换对象的方式，而不是每次都改变底层数据，可以做到一次渲染就能更新所有值，
-    // 优化性能
-    this.setState({ squares: squares, xIsNext: !this.state.xIsNext });
-  }
 
   render() {
-    let status;
-    let winner = calculateWinner(this.state.squares);
-    this.winner = winner;
-    if (this.winner) {
-      status = "Winner: " + this.winner;
-    } else {
-      status = "Next Player" + (this.state.xIsNext ? "X" : "O");
-    }
     return (
       <div>
-        <div className="status">{status}</div>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
@@ -78,14 +50,62 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      history: [
+        {
+          squares: Array(9).fill(null),
+        },
+      ],
+      xIsNext: true,
+      winner: null,
+    };
+  }
+
+  handClick(i) {
+    const history = this.state.history;
+    const current = history[history.length - 1];
+    const squares = current.squares.slice();
+    // 放过棋子格子不进行更新。
+    // 出现胜者，不做处理
+    if (squares[i] || this.state.winner) {
+      return;
+    }
+    squares[i] = this.state.xIsNext ? "X" : "O";
+    const winner = calculateWinner(squares);
+    if (winner) {
+      this.setState({
+        winner: winner,
+      });
+    }
+    // this.state.xIsNext = !this.state.xIsNext; Do not mutate state directly. Use setState()
+    // 通过替换对象的方式，而不是每次都改变底层数据，可以做到一次渲染就能更新所有值，
+    // 优化性能
+    this.setState({
+      history: history.concat({ squares: squares }),
+      xIsNext: !this.state.xIsNext,
+      winner: winner,
+    });
+  }
+
   render() {
+    const history = this.state.history;
+    const current = history[history.length - 1];
+    const winner = this.state.winner;
+    let status;
+    if (winner) {
+      status = "Winner: " + winner;
+    } else {
+      status = "Next Player: " + (this.state.xIsNext ? "X" : "O");
+    }
     return (
       <div className="game">
         <div className="game-board">
-          <Board />
+          <Board squares={current.squares} onclick={(i) => this.handClick(i)} />
         </div>
         <div className="game-info">
-          <div>{/* status */}</div>
+          <div>{status}</div>
           <ol>{/* TODO */}</ol>
         </div>
       </div>
