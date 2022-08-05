@@ -1,4 +1,5 @@
-// https://zh-hans.reactjs.org/tutorial/tutorial.html
+// 文档:https://zh-hans.reactjs.org/docs/hello-world.html
+// 边学边做:https://zh-hans.reactjs.org/tutorial/tutorial.html
 
 import React from "react";
 import ReactDOM from "react-dom/client";
