@@ -18,6 +18,9 @@ class Board extends React.Component {
   // this.props是从父组件传过来的变量
   // this.state则需要在constructor中自己定义
 
+  constructor(props) {
+    super(props);
+  }
   renderSquare(i) {
     return (
       <Square
