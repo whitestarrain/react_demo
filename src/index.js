@@ -96,6 +96,7 @@ class Game extends React.Component {
     this.setState({
       stepNumber: step,
       xIsNext: step % 2 === 0,
+      winner: calculateWinner(this.state.history[step].squares),
     });
   }
 
@@ -103,6 +104,7 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = this.state.winner;
+    // 变量可以指向jsx对象
     const moves = history.map((step, move) => {
       const desc = move ? "Go to move #" + move : "Go to game start";
       return (
@@ -124,7 +126,12 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <ol>
+            {
+              // moves是jsx对象数组
+              moves
+            }
+          </ol>
         </div>
       </div>
     );
