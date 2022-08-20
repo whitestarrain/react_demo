@@ -4,6 +4,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import { ControlledComponents } from "./controlledComponent.js";
 
 // 如果你想写的组件只包含一个 render 方法，并且不包含 state，那么使用函数组件就会更简单。
 function Square(props) {
@@ -13,7 +14,6 @@ function Square(props) {
     </button>
   );
 }
-
 class Board extends React.Component {
   // this.props是从父组件传过来的变量
   // this.state则需要在constructor中自己定义
@@ -164,4 +164,9 @@ function calculateWinner(squares) {
 // ========================================
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<Game />);
+root.render(
+  <div>
+    <Game />
+    <ControlledComponents />
+  </div>
+);
