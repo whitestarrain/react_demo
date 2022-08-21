@@ -59,12 +59,12 @@ class Game extends React.Component {
     this.state = {
       history: [
         {
-          squares: Array(9).fill(null),
-        },
+          squares: Array(9).fill(null)
+        }
       ],
       xIsNext: true,
       winner: null,
-      stepNumber: 0,
+      stepNumber: 0
     };
   }
 
@@ -81,7 +81,7 @@ class Game extends React.Component {
     const winner = calculateWinner(squares);
     if (winner) {
       this.setState({
-        winner: winner,
+        winner: winner
       });
     }
     // this.state.xIsNext = !this.state.xIsNext; Do not mutate state directly. Use setState()
@@ -91,7 +91,7 @@ class Game extends React.Component {
       history: history.concat({ squares: squares }),
       xIsNext: !this.state.xIsNext,
       winner: winner,
-      stepNumber: history.length,
+      stepNumber: history.length
     });
   }
 
@@ -99,7 +99,7 @@ class Game extends React.Component {
     this.setState({
       stepNumber: step,
       xIsNext: step % 2 === 0,
-      winner: calculateWinner(this.state.history[step].squares),
+      winner: calculateWinner(this.state.history[step].squares)
     });
   }
 
@@ -125,7 +125,7 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <Board squares={current.squares} onclick={(i) => this.handClick(i)} />
+          <Board squares={current.squares} onclick={i => this.handClick(i)} />
         </div>
         <div className="game-info">
           <div>{status}</div>
@@ -150,7 +150,7 @@ function calculateWinner(squares) {
     [1, 4, 7],
     [2, 5, 8],
     [0, 4, 8],
-    [2, 4, 6],
+    [2, 4, 6]
   ];
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
